@@ -1,25 +1,31 @@
-import React from "react";
-
-// background Image
-import animal_bg from "../assets/images/animal_bg.png";
+import React, { useState } from "react";
 
 //components
-import { Header, Search } from "../components";
+import { Header, Search, LazyImage } from "../components";
 
 const SearchPage = () => {
+  const animal_bg =
+    "https://res.cloudinary.com/dunevr8hc/image/upload/v1631800324/ndqrdntdx0vosqgiytwm.png";
+
+  const [load, setLoad] = useState(false);
+  const onLoad = () => {
+    setLoad(true);
+  };
+
   return (
-    <div
-      style={{
-        backgroundImage: `url(${animal_bg})`,
-      }}
-      className="w-screen h-screen bg-center bg-cover bg-norepeat"
+    <LazyImage
+      link={animal_bg}
+      className={`w-screen h-screen bg-center bg-cover bg-norepeat ${
+        load ? "" : "bg-black"
+      }`}
+      onload={onLoad}
     >
       <Header />
 
       <div className="w-full h-full flex items-center justify-center">
         <Search />
       </div>
-    </div>
+    </LazyImage>
   );
 };
 
