@@ -1,58 +1,93 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
-
-// comment out after api implementation
-import fox from "../assets/images/fox.png";
-// import { useQuery } from "react-query";
+import axios from "axios";
 
 //components
-import { Header } from "../components";
+import { Header, LazyImage, Search } from "../components";
 
 const Result = () => {
+  const baseUrl = "https://cpe-510-service.herokuapp.com/animal";
+
   const { name } = useParams();
 
+  const [loading, setLoading] = useState(false);
+  const [animal, setAnimal] = useState({});
+  const [imageLoad, setImageLoad] = useState(false);
+
   // make apirequest and use data to fill page
-  // const { isLoading, error, data } = useQuery("animal data", () => {
-  //   fetch("").then((res) => res.json());
-  // });
+
+  const Init = useCallback(async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`${baseUrl}?Animals=${name}`);
+      console.log({ data });
+
+      setAnimal(data.data);
+
+      setLoading(false);
+    } catch (err) {
+      console.log({ err });
+      setLoading(false);
+    }
+  }, [name]);
+
+  const onload = () => {
+    setImageLoad(true);
+  };
 
   useEffect(() => {
-    console.log({ name });
-  }, [name]);
+    Init();
+  }, [Init]);
+
   return (
     <div className="h-screen">
       <Header alt />
-      <div className=" w-screen h-full  flex">
-        <div className="ml-auto w-5/12  flex px-8">
-          <div
-            className="w-full mt-40 ring-gray-600 ring-2 rounded-sm py-8 px-8"
-            style={{ height: "fit-content" }}
-          >
-            <h1 className="text-6xl font-bold mb-5 w-full break-words">
-              {name}
-            </h1>
-            <span className="italic font-thin text-2xl">/fndvjndf/</span>
-
-            <span className="mt-8 block font-bold text-4xl mb-3">Kolokolo</span>
-            <span className="font-thin italic text-2xl">/dnjfknd/</span>
-            <div className="mt-10">
-              <span className="font-bold mb-5 text-2xl text-gray-900">
-                Description
+      {!loading && animal.Animals ? (
+        <div className=" w-screen h-full  flex">
+          <div className="ml-auto w-5/12 px-8">
+            <div className="mt-60 ring-1 max-w-max rounded-lg">
+              <Search />
+            </div>
+            <div
+              className="w-full mt-10 ring-gray-600 ring-2 rounded-sm py-8 px-8"
+              style={{ height: "fit-content" }}
+            >
+              <h1 className="text-6xl font-bold mb-5 w-full break-words">
+                {animal?.Animals}
+              </h1>
+              <span className="italic font-thin text-2xl">
+                {animal["Transcription English"]}
               </span>
-              <p className="font-thin text-xl italics">
-                Foxes are small to medium-sized, omnivorous mammals belonging to
-                several genera of the family Canidae. They have a flattened
-                skull, upright triangular ears, a pointed, slightly upturned
-                snout, and a long bushy tail (or brush).
-              </p>
+
+              <span className="mt-8 block font-bold text-4xl mb-3">
+                {animal["Translation (Yoruba)"]}
+              </span>
+              <span className="font-thin italic text-2xl">
+                {animal["Transcription Yoruba"]}
+              </span>
+              <div className="mt-10">
+                <span className="font-bold mb-5 text-2xl text-gray-900">
+                  Description
+                </span>
+                <p className="font-thin text-xl italics">
+                  {animal?.Description}
+                </p>
+              </div>
             </div>
           </div>
+          <LazyImage
+            className={`w-6/12 h-full ${
+              imageLoad ? "bg-gray-700" : "bg-gray-900"
+            } bg-center bg-contain bg-no-repeat`}
+            link={animal["Image URL"]}
+            onload={onload}
+          ></LazyImage>
         </div>
-        <div
-          className="w-6/12 h-full bg-gray-300 bg-center bg-cover bg-no-repeat"
-          style={{ backgroundImage: `url(${fox})` }}
-        ></div>
-      </div>
+      ) : loading ? (
+        "loading..."
+      ) : (
+        "Something went wrong"
+      )}
     </div>
   );
 };

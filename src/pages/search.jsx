@@ -23,7 +23,9 @@ const SearchPage = () => {
       <Header />
 
       <div className="w-full h-full flex items-center justify-center">
-        <Search />
+        <div className="mt-72">
+          <Search />
+        </div>
       </div>
     </LazyImage>
   );

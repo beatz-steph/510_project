@@ -18,7 +18,7 @@ const Search = () => {
   return (
     <div
       onClick={focusInput}
-      className="flex items-center rounded-sm bg-white rounded-lg overflow-hidden mt-72"
+      className="flex items-center rounded-sm bg-white rounded-lg overflow-hidden "
     >
       <input
         ref={inputRef}
