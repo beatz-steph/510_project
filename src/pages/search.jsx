@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 //components
 import { Header, Search, LazyImage } from "../components";
 
-const SearchPage = () => {
+const SearchPage = ({ animal }) => {
+  const history = useHistory();
+
   const animal_bg =
     "https://res.cloudinary.com/dunevr8hc/image/upload/v1631800324/ndqrdntdx0vosqgiytwm.png";
 
@@ -11,6 +14,12 @@ const SearchPage = () => {
   const onLoad = () => {
     setLoad(true);
   };
+
+  useEffect(() => {
+    if (!animal?.Animals) return;
+
+    history.push("/result");
+  });
 
   return (
     <LazyImage

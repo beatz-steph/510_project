@@ -1,5 +1,5 @@
 export const APP_ROUTES = {
   search: "/",
-  result: "/result/:name",
+  result: "/result",
   about: "/about",
 };

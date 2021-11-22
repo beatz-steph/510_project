@@ -1,11 +1,22 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import logo from "../assets/images/logo.png";
 
 // routes
 import { APP_ROUTES } from "../data";
 
+// context
+import AppContext from "../context";
+
 const Header = ({ alt }) => {
+  const history = useHistory();
+
+  const { setAnimal } = useContext(AppContext);
+
+  const goHome = () => {
+    setAnimal({});
+    history.push(`${APP_ROUTES.search}`);
+  };
   return (
     <nav
       className={`${
@@ -14,8 +25,8 @@ const Header = ({ alt }) => {
     >
       <div className="w-full  px-6 container mx-auto  flex items-center">
         <div className="flex items-center divide-x divide-gray-300">
-          <Link
-            to={APP_ROUTES.search}
+          <div
+            onClick={goHome}
             style={{ backgroundImage: `url(${logo})` }}
             className="h-24 w-36 bg-contain bg-center bg-no-repeat cursor-pointer"
           />
