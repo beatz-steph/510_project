@@ -12,11 +12,25 @@ const Search = () => {
     inputRef.current.focus();
   };
   const search = (e) => {
+    e.preventDefault();
     e.stopPropagation();
-    history.push(`/result/${inputRef.current.value}`);
+    const string = inputRef.current.value || "";
+
+    string.toLowerCase();
+
+    let stringArray = string.split("");
+
+    stringArray[0] = stringArray[0].toUpperCase();
+
+    const term = stringArray.join("");
+
+    console.log({ term, stringArray });
+
+    history.push(`/result/${term}`);
   };
   return (
-    <div
+    <form
+      onSubmit={search}
       onClick={focusInput}
       className="flex items-center rounded-sm bg-white rounded-lg overflow-hidden "
     >
@@ -30,7 +44,7 @@ const Search = () => {
       >
         <SearchIcon />
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -20,7 +20,6 @@ const Result = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(`${baseUrl}?Animals=${name}`);
-      console.log({ data });
 
       setAnimal(data.data);
 
@@ -42,7 +41,7 @@ const Result = () => {
   return (
     <div className="h-screen">
       <Header alt />
-      {!loading && animal.Animals ? (
+      {!loading && animal?.Animals ? (
         <div className=" w-screen h-full  flex">
           <div className="ml-auto w-5/12 px-8">
             <div className="mt-60 ring-1 max-w-max rounded-lg">
@@ -84,7 +83,7 @@ const Result = () => {
           ></LazyImage>
         </div>
       ) : loading ? (
-        "loading..."
+        <div className="">Loading ...</div>
       ) : (
         "Something went wrong"
       )}
