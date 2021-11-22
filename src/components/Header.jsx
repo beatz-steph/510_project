@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import logo from "../assets/images/logo.png";
 
 // routes
@@ -36,9 +36,9 @@ const Header = ({ alt }) => {
           </div>
         </div>
         <div className="flex ml-auto text-white font-xl">
-          {/* <Link className="mx-4" to={APP_ROUTES.about}>
+          <Link className="mx-4" to={APP_ROUTES.about}>
             About
-          </Link> */}
+          </Link>
         </div>
       </div>
     </nav>
