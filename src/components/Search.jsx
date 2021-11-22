@@ -48,7 +48,7 @@ const Search = () => {
     } catch (err) {
       console.log({ err });
       setAnimal({});
-      toast.error("Something went wrong");
+      toast.error(`Animal with name  '${term}'  not found`);
       setError(`Animal with name  '${term}'  not found`);
       setLoading(false);
     }
@@ -73,6 +73,7 @@ const Search = () => {
         ref={inputRef}
         className="text-2xl w-96 px-4 py-2 focus:outline-none"
         disabled={loading}
+        placeholder="Enter a name"
       />
       <button
         onClick={search}
